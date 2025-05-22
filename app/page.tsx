@@ -39,7 +39,14 @@ export default async function Home() {
       <section className="relative min-h-[85vh] flex items-center justify-center overflow-hidden">
         {/* Background Video */}
         <div className="absolute inset-0 z-0">
-          <video autoPlay muted loop playsInline className="object-cover w-full h-full brightness-[0.4]">
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            poster="/images/cooking-background-fallback.png"
+            className="object-cover w-full h-full brightness-[0.4]"
+          >
             <source src="/videos/cooking-background.mp4" type="video/mp4" />
           </video>
         </div>
@@ -281,6 +288,89 @@ export default async function Home() {
             {newRecipes.slice(0, 8).map((recipe) => (
               <RecipeCard key={recipe._id?.toString()} recipe={recipe} />
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Cooking Tips Section */}
+      <section className="py-16 bg-white">
+        <div className="container">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-serif font-bold text-brown-900">Cooking Tips & Tricks</h2>
+            <p className="text-brown-600 mt-2 max-w-2xl mx-auto">
+              Enhance your culinary skills with these professional cooking tips
+            </p>
+          </div>
+
+          <div className="grid gap-8 md:grid-cols-3">
+            <div className="bg-amber-50 rounded-xl overflow-hidden shadow-md">
+              <div className="relative h-48">
+                <Image
+                  src="https://images.unsplash.com/photo-1556911073-38141963c9e0?w=800&auto=format&fit=crop"
+                  alt="Knife Skills"
+                  fill
+                  className="object-cover"
+                />
+              </div>
+              <div className="p-6">
+                <h3 className="text-xl font-bold mb-2">Master Knife Skills</h3>
+                <p className="text-gray-700 mb-4">
+                  Learn proper knife techniques to improve your efficiency and safety in the kitchen.
+                </p>
+                <Link
+                  href="/tips/knife-skills"
+                  className="text-orange-600 hover:text-orange-700 flex items-center font-medium"
+                >
+                  Learn More <ArrowRight className="ml-1 h-4 w-4" />
+                </Link>
+              </div>
+            </div>
+
+            <div className="bg-amber-50 rounded-xl overflow-hidden shadow-md">
+              <div className="relative h-48">
+                <Image
+                  src="https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?w=800&auto=format&fit=crop"
+                  alt="Flavor Pairing"
+                  fill
+                  className="object-cover"
+                />
+              </div>
+              <div className="p-6">
+                <h3 className="text-xl font-bold mb-2">Flavor Pairing Secrets</h3>
+                <p className="text-gray-700 mb-4">
+                  Discover how to combine ingredients to create perfectly balanced and delicious dishes.
+                </p>
+                <Link
+                  href="/tips/flavor-pairing"
+                  className="text-orange-600 hover:text-orange-700 flex items-center font-medium"
+                >
+                  Learn More <ArrowRight className="ml-1 h-4 w-4" />
+                </Link>
+              </div>
+            </div>
+
+            <div className="bg-amber-50 rounded-xl overflow-hidden shadow-md">
+              <div className="relative h-48">
+                <Image
+                  src="https://images.unsplash.com/photo-1607877742574-a7253426f5af?w=800&auto=format&fit=crop"
+                  alt="Food Presentation"
+                  fill
+                  className="object-cover"
+                />
+              </div>
+              <div className="p-6">
+                <h3 className="text-xl font-bold mb-2">Food Presentation</h3>
+                <p className="text-gray-700 mb-4">
+                  Learn how to plate your dishes like a professional chef and impress your guests.
+                </p>
+                <Link
+                  href="/tips/food-presentation"
+                  className="text-orange-600 hover:text-orange-700 flex items-center font-medium"
+                >
+                  Learn More <ArrowRight className="ml-1 h-4 w-4" />
+                </Link>
+              </div>
+            </div>
           </div>
         </div>
       </section>
