@@ -63,6 +63,8 @@ export function Header() {
     { name: "Recently Added", slug: "recent" },
     { name: "Seasonal", slug: "seasonal" },
     { name: "Quick & Easy", slug: "quick-easy" },
+    { name: "Meal Planner", slug: "meal-planner" },
+    { name: "Shopping List", slug: "shopping-list" },
   ]
 
   return (

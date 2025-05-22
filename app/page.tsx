@@ -35,17 +35,13 @@ export default async function Home() {
 
   return (
     <div>
-      {/* Hero Section with Background Image */}
+      {/* Hero Section with Background Video */}
       <section className="relative min-h-[85vh] flex items-center justify-center overflow-hidden">
-        {/* Background Image */}
+        {/* Background Video */}
         <div className="absolute inset-0 z-0">
-          <Image
-            src="https://images.unsplash.com/photo-1543353071-10c8ba85a904?q=80&w=2070&auto=format&fit=crop"
-            alt="Cooking background"
-            fill
-            className="object-cover brightness-[0.4]"
-            priority
-          />
+          <video autoPlay muted loop playsInline className="object-cover w-full h-full brightness-[0.4]">
+            <source src="/videos/cooking-background.mp4" type="video/mp4" />
+          </video>
         </div>
 
         {/* Content */}
@@ -131,6 +127,75 @@ export default async function Home() {
           </div>
 
           <CuisineIconGrid cuisines={cuisines} />
+        </div>
+      </section>
+
+      {/* Featured Categories with Images */}
+      <section className="py-16 bg-white">
+        <div className="container">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-serif font-bold text-brown-900">Featured Categories</h2>
+            <p className="text-brown-600 mt-2">Explore our most popular recipe categories</p>
+          </div>
+
+          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+            <div className="group relative h-80 overflow-hidden rounded-xl shadow-lg">
+              <Image
+                src="https://images.unsplash.com/photo-1533089860892-a9b9ac6cd6a4?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8YnJlYWtmYXN0fGVufDB8fDB8fHww"
+                alt="Breakfast"
+                fill
+                className="object-cover transition-transform duration-500 group-hover:scale-110"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent flex flex-col justify-end p-6">
+                <h3 className="text-2xl font-serif font-bold text-white mb-2">Breakfast</h3>
+                <p className="text-white/80 mb-4">Start your day with these delicious breakfast recipes</p>
+                <Link
+                  href="/categories/breakfast"
+                  className="inline-flex items-center text-orange-300 hover:text-orange-100"
+                >
+                  View Recipes <ArrowRight className="ml-1 h-4 w-4" />
+                </Link>
+              </div>
+            </div>
+
+            <div className="group relative h-80 overflow-hidden rounded-xl shadow-lg">
+              <Image
+                src="https://images.unsplash.com/photo-1576402187878-974f70c890a5?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fGRpbm5lcnxlbnwwfHwwfHx8MA%3D%3D"
+                alt="Dinner"
+                fill
+                className="object-cover transition-transform duration-500 group-hover:scale-110"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent flex flex-col justify-end p-6">
+                <h3 className="text-2xl font-serif font-bold text-white mb-2">Dinner</h3>
+                <p className="text-white/80 mb-4">Hearty and satisfying dinner recipes for the whole family</p>
+                <Link
+                  href="/categories/dinner"
+                  className="inline-flex items-center text-orange-300 hover:text-orange-100"
+                >
+                  View Recipes <ArrowRight className="ml-1 h-4 w-4" />
+                </Link>
+              </div>
+            </div>
+
+            <div className="group relative h-80 overflow-hidden rounded-xl shadow-lg">
+              <Image
+                src="https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8ZGVzc2VydHN8ZW58MHx8MHx8fDA%3D"
+                alt="Desserts"
+                fill
+                className="object-cover transition-transform duration-500 group-hover:scale-110"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent flex flex-col justify-end p-6">
+                <h3 className="text-2xl font-serif font-bold text-white mb-2">Desserts</h3>
+                <p className="text-white/80 mb-4">Sweet treats to satisfy your cravings</p>
+                <Link
+                  href="/categories/desserts"
+                  className="inline-flex items-center text-orange-300 hover:text-orange-100"
+                >
+                  View Recipes <ArrowRight className="ml-1 h-4 w-4" />
+                </Link>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 

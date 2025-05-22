@@ -178,7 +178,7 @@ export async function getRecipes({
   cuisine = "",
   dietary = "",
   search = "",
-  sortBy = "newest",
+  sortBy = "newest" | "popular" | "rating",
   difficulty = "",
   cookingTime = 0,
 }: {
@@ -346,7 +346,12 @@ export async function initializeSampleRecipes() {
     if (count === 0) {
       // Import sample recipes
       const { sampleRecipes } = await import("./sample-recipes")
-      await collection.insertMany(sampleRecipes)
+      const { additionalRecipes } = await import("./additional-recipes")
+
+      // Combine all recipes
+      const allRecipes = [...sampleRecipes, ...additionalRecipes]
+
+      await collection.insertMany(allRecipes)
     }
   } catch (error) {
     console.error("Error initializing sample recipes:", error)
