@@ -55,6 +55,17 @@ export default function RootLayout({
                 observer.observe(section);
               });
             });
+
+            document.addEventListener('DOMContentLoaded', function() {
+              const videos = document.querySelectorAll('video');
+              videos.forEach(video => {
+                video.play().catch(error => {
+                  console.log('Auto-play was prevented');
+                  // Show poster/fallback image
+                  video.setAttribute('poster', '/images/cooking-background-fallback.png');
+                });
+              });
+            });
           `}
         </Script>
       </body>

@@ -54,8 +54,13 @@ export function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/explore/seasonal" className="text-muted-foreground hover:text-primary">
-                  Seasonal Recipes
+                <Link href="/meal-planner" className="text-muted-foreground hover:text-primary">
+                  Meal Planner
+                </Link>
+              </li>
+              <li>
+                <Link href="/shopping-list" className="text-muted-foreground hover:text-primary">
+                  Shopping List
                 </Link>
               </li>
             </ul>
