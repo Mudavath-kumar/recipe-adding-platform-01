@@ -1,10 +1,8 @@
 import { notFound } from "next/navigation"
 import Link from "next/link"
 import Image from "next/image"
-import { ArrowLeft, Clock, Edit, User, Utensils, ChefHat, Heart } from "lucide-react"
+import { ArrowLeft, Clock, Edit, User, Utensils, ChefHat, Share2, Bookmark, Printer, Heart } from "lucide-react"
 import { AddToCollection } from "@/components/add-to-collection"
-import { PrintRecipe } from "@/components/print-recipe"
-import { ShareRecipe } from "@/components/share-recipe"
 
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
@@ -79,11 +77,18 @@ export default async function RecipePage({ params }: { params: { id: string } })
                 priority
               />
               <div className="absolute top-4 right-4 flex gap-2">
-                {currentUser && (
-                  <AddToCollection recipeId={recipe._id?.toString() || ""} userId={currentUser._id?.toString() || ""} />
-                )}
-                <PrintRecipe recipe={recipe} />
-                <ShareRecipe recipeId={recipe._id?.toString() || ""} recipeTitle={recipe.title} />
+                <Button variant="outline" size="icon" className="bg-white/90 rounded-full hover:bg-white">
+                  <Bookmark className="h-5 w-5 text-orange-600" />
+                  <span className="sr-only">Save recipe</span>
+                </Button>
+                <Button variant="outline" size="icon" className="bg-white/90 rounded-full hover:bg-white">
+                  <Printer className="h-5 w-5 text-orange-600" />
+                  <span className="sr-only">Print recipe</span>
+                </Button>
+                <Button variant="outline" size="icon" className="bg-white/90 rounded-full hover:bg-white">
+                  <Share2 className="h-5 w-5 text-orange-600" />
+                  <span className="sr-only">Share recipe</span>
+                </Button>
               </div>
             </div>
 
