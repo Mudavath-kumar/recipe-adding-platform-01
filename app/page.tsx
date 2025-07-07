@@ -1,18 +1,6 @@
 import Link from "next/link"
 import Image from "next/image"
-import {
-  Clock,
-  Utensils,
-  TrendingUp,
-  Star,
-  Users,
-  ChefHat,
-  Heart,
-  Globe,
-  BookOpen,
-  FlameIcon as Fire,
-  Zap,
-} from "lucide-react"
+import { ArrowRight, Clock, Utensils, TrendingUp, Award, Star, Users, ChefHat, Heart } from "lucide-react"
 import { initializeSampleRecipes } from "@/lib/recipes"
 
 import { Button } from "@/components/ui/button"
@@ -21,6 +9,10 @@ import { getAllCategories } from "@/lib/categories"
 import { getAllCuisines } from "@/lib/cuisines"
 import { initializeCategories, updateCategoryImages } from "@/lib/categories"
 import { initializeCuisines, updateCuisineImages } from "@/lib/cuisines"
+import { SearchBar } from "@/components/search-bar"
+import { FeaturedRecipeCarousel } from "@/components/featured-recipe-carousel"
+import { RecipeCard } from "@/components/recipe-card"
+import { CuisineIconGrid } from "@/components/cuisine-icon-grid"
 
 export default async function Home() {
   // Initialize default data if needed and update images
@@ -42,297 +34,507 @@ export default async function Home() {
   ])
 
   return (
-    <div className="min-h-screen bg-black text-white overflow-hidden">
-      {/* DRAMATIC HERO SECTION */}
-      <section className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900">
-        {/* Animated Background */}
-        <div className="absolute inset-0">
-          <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1543353071-10c8ba85a904?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center opacity-20"></div>
-          <div className="absolute inset-0 bg-gradient-to-r from-orange-500/30 via-red-500/30 to-pink-500/30 animate-pulse"></div>
+    <div>
+      {/* Hero Section with Background Video */}
+      <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
+        {/* Background Video */}
+        <div className="absolute inset-0 z-0">
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            poster="https://images.unsplash.com/photo-1543353071-10c8ba85a904?q=80&w=2070&auto=format&fit=crop"
+            className="object-cover w-full h-full brightness-[0.3]"
+          >
+            <source src="https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" type="video/mp4" />
+          </video>
         </div>
 
-        {/* Floating Elements */}
-        <div className="absolute inset-0 overflow-hidden">
-          {[...Array(50)].map((_, i) => (
-            <div
-              key={i}
-              className="absolute w-2 h-2 bg-gradient-to-r from-orange-400 to-pink-400 rounded-full animate-bounce opacity-70"
-              style={{
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-                animationDelay: `${Math.random() * 5}s`,
-                animationDuration: `${2 + Math.random() * 3}s`,
-              }}
-            ></div>
-          ))}
+        {/* Animated Background Elements */}
+        <div className="absolute inset-0 z-5">
+          <div className="absolute top-20 left-10 w-20 h-20 bg-orange-400/20 rounded-full blur-xl animate-pulse"></div>
+          <div className="absolute top-40 right-20 w-32 h-32 bg-amber-400/20 rounded-full blur-xl animate-pulse delay-1000"></div>
+          <div className="absolute bottom-20 left-1/4 w-24 h-24 bg-orange-300/20 rounded-full blur-xl animate-pulse delay-2000"></div>
         </div>
 
-        {/* Main Content */}
-        <div className="container relative z-10 text-center px-4">
-          {/* Glowing Badge */}
-          <div className="mb-8">
-            <span className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-orange-500 to-pink-500 text-white rounded-full text-lg font-bold shadow-2xl animate-pulse border-4 border-white/20">
-              <Fire className="w-6 h-6 mr-3 animate-bounce" />🔥 WELCOME TO RECIPEHAVEN - THE ULTIMATE FOOD DESTINATION
-              🔥
-            </span>
-          </div>
+        {/* Content */}
+        <div className="container relative z-10 px-4 py-32 text-center">
+          <div className="animate-fade-in-up">
+            <div className="mb-6">
+              <span className="inline-block px-4 py-2 bg-orange-600/90 text-white rounded-full text-sm font-medium mb-4">
+                🍳 Welcome to RecipeHaven
+              </span>
+            </div>
+            <h1 className="text-5xl md:text-7xl font-serif font-bold mb-6 text-white leading-tight">
+              Discover{" "}
+              <span className="text-orange-400 relative">
+                Delicious
+                <div className="absolute -bottom-2 left-0 w-full h-1 bg-gradient-to-r from-orange-400 to-amber-400 rounded-full"></div>
+              </span>{" "}
+              Recipes
+            </h1>
+            <p className="text-xl md:text-2xl text-gray-200 mb-10 max-w-3xl mx-auto leading-relaxed">
+              Find and share the best recipes from around the world. Join our community of passionate food lovers and
+              culinary enthusiasts!
+            </p>
 
-          {/* MASSIVE TITLE */}
-          <h1 className="text-8xl md:text-9xl lg:text-[12rem] font-black mb-8 leading-none">
-            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-red-500 to-pink-500 animate-pulse drop-shadow-2xl">
-              COOK
-            </span>
-            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 animate-pulse drop-shadow-2xl">
-              AMAZING
-            </span>
-            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-purple-500 to-indigo-500 animate-pulse drop-shadow-2xl">
-              RECIPES
-            </span>
-          </h1>
+            <div className="max-w-2xl mx-auto mb-12">
+              <SearchBar className="shadow-2xl border-2 border-orange-400/50" />
+            </div>
 
-          {/* Subtitle */}
-          <p className="text-2xl md:text-4xl text-white mb-12 max-w-4xl mx-auto font-bold drop-shadow-lg">
-            🌟 DISCOVER • CREATE • SHARE • INSPIRE 🌟
-            <br />
-            <span className="text-orange-400">Join 100K+ Food Lovers Worldwide!</span>
-          </p>
-
-          {/* HUGE BUTTONS */}
-          <div className="flex flex-wrap justify-center gap-8 mb-16">
-            <Button
-              asChild
-              size="lg"
-              className="bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 hover:from-orange-600 hover:via-red-600 hover:to-pink-600 text-white px-12 py-8 text-2xl font-bold shadow-2xl transform hover:scale-110 transition-all duration-300 border-4 border-white/30 rounded-2xl"
-            >
-              <Link href="/explore/popular">
-                <TrendingUp className="mr-4 h-8 w-8" />🔥 EXPLORE HOT RECIPES
-              </Link>
-            </Button>
-            <Button
-              asChild
-              size="lg"
-              className="bg-gradient-to-r from-purple-500 via-blue-500 to-indigo-500 hover:from-purple-600 hover:via-blue-600 hover:to-indigo-600 text-white px-12 py-8 text-2xl font-bold shadow-2xl transform hover:scale-110 transition-all duration-300 border-4 border-white/30 rounded-2xl"
-            >
-              <Link href="/recipes/new">
-                <Utensils className="mr-4 h-8 w-8" />⭐ SHARE YOUR RECIPE
-              </Link>
-            </Button>
-          </div>
-
-          {/* GLOWING STATS */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-6xl mx-auto">
-            {[
-              { number: "100K+", label: "RECIPES", icon: BookOpen, color: "from-orange-400 to-red-500" },
-              { number: "200+", label: "COUNTRIES", icon: Globe, color: "from-blue-400 to-purple-500" },
-              { number: "1M+", label: "USERS", icon: Users, color: "from-green-400 to-blue-500" },
-              { number: "5.0★", label: "RATING", icon: Star, color: "from-yellow-400 to-orange-500" },
-            ].map((stat, index) => (
-              <div
-                key={index}
-                className={`bg-gradient-to-br ${stat.color} p-8 rounded-3xl shadow-2xl transform hover:scale-110 transition-all duration-300 border-4 border-white/20`}
+            <div className="flex flex-wrap justify-center gap-4 mb-12">
+              <Button
+                asChild
+                size="lg"
+                className="bg-gradient-to-r from-orange-600 to-amber-600 hover:from-orange-700 hover:to-amber-700 text-white px-8 py-6 text-lg shadow-xl"
               >
-                <stat.icon className="h-12 w-12 text-white mx-auto mb-4 animate-bounce" />
-                <p className="text-4xl font-black text-white mb-2">{stat.number}</p>
-                <p className="text-white font-bold text-lg">{stat.label}</p>
-              </div>
-            ))}
+                <Link href="/explore/popular">
+                  <TrendingUp className="mr-2 h-5 w-5" />
+                  Popular Recipes
+                </Link>
+              </Button>
+              <Button
+                asChild
+                size="lg"
+                variant="outline"
+                className="border-2 border-orange-400 text-orange-400 hover:bg-orange-900/20 px-8 py-6 text-lg backdrop-blur-sm bg-white/10"
+              >
+                <Link href="/recipes/new">
+                  <Utensils className="mr-2 h-5 w-5" />
+                  Share Your Recipe
+                </Link>
+              </Button>
+            </div>
+          </div>
+
+          <div className="mt-16 flex flex-wrap justify-center gap-8">
+            <div className="bg-black/60 backdrop-blur-sm px-8 py-6 rounded-xl border border-orange-600/30 shadow-xl">
+              <p className="text-4xl font-bold text-orange-400 mb-1">1000+</p>
+              <p className="text-gray-300 text-sm">Recipes</p>
+            </div>
+            <div className="bg-black/60 backdrop-blur-sm px-8 py-6 rounded-xl border border-orange-600/30 shadow-xl">
+              <p className="text-4xl font-bold text-orange-400 mb-1">50+</p>
+              <p className="text-gray-300 text-sm">Categories</p>
+            </div>
+            <div className="bg-black/60 backdrop-blur-sm px-8 py-6 rounded-xl border border-orange-600/30 shadow-xl">
+              <p className="text-4xl font-bold text-orange-400 mb-1">10k+</p>
+              <p className="text-gray-300 text-sm">Happy Cooks</p>
+            </div>
+            <div className="bg-black/60 backdrop-blur-sm px-8 py-6 rounded-xl border border-orange-600/30 shadow-xl">
+              <p className="text-4xl font-bold text-orange-400 mb-1">4.9★</p>
+              <p className="text-gray-300 text-sm">Rating</p>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* NEON FEATURES SECTION */}
-      <section className="py-24 bg-gradient-to-br from-gray-900 via-purple-900 to-violet-900 relative">
+      {/* Features Section */}
+      <section className="py-16 bg-gradient-to-b from-white to-amber-50">
         <div className="container">
-          <div className="text-center mb-20">
-            <h2 className="text-6xl md:text-8xl font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500 mb-8">
-              🚀 AMAZING FEATURES
-            </h2>
-            <p className="text-2xl text-white font-bold">Why RecipeHaven is THE BEST cooking platform!</p>
-          </div>
-
-          <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-4">
-            {[
-              {
-                icon: ChefHat,
-                title: "EXPERT RECIPES",
-                description: "Professional chef-approved recipes that guarantee success!",
-                color: "from-orange-400 to-red-500",
-                bgColor: "from-orange-900/50 to-red-900/50",
-              },
-              {
-                icon: Users,
-                title: "GLOBAL COMMUNITY",
-                description: "Connect with millions of passionate food lovers worldwide!",
-                color: "from-blue-400 to-purple-500",
-                bgColor: "from-blue-900/50 to-purple-900/50",
-              },
-              {
-                icon: Star,
-                title: "5-STAR RATED",
-                description: "Every recipe is tested and rated by our amazing community!",
-                color: "from-yellow-400 to-orange-500",
-                bgColor: "from-yellow-900/50 to-orange-900/50",
-              },
-              {
-                icon: Heart,
-                title: "SAVE FAVORITES",
-                description: "Create collections and never lose your favorite recipes!",
-                color: "from-pink-400 to-red-500",
-                bgColor: "from-pink-900/50 to-red-900/50",
-              },
-            ].map((feature, index) => (
-              <div key={index} className="group relative">
-                <div
-                  className={`relative bg-gradient-to-br ${feature.bgColor} backdrop-blur-sm rounded-3xl p-8 shadow-2xl hover:shadow-[0_0_50px_rgba(255,255,255,0.3)] transition-all duration-500 transform hover:-translate-y-8 hover:scale-105 border-2 border-white/20`}
-                >
-                  {/* Glowing Icon */}
-                  <div
-                    className={`w-24 h-24 bg-gradient-to-br ${feature.color} rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-2xl group-hover:animate-bounce`}
-                  >
-                    <feature.icon className="h-12 w-12 text-white" />
-                  </div>
-
-                  {/* Content */}
-                  <h3 className="text-2xl font-black mb-4 text-white text-center">{feature.title}</h3>
-                  <p className="text-gray-300 leading-relaxed text-center font-medium">{feature.description}</p>
-
-                  {/* Glow Effect */}
-                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl"></div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* WORLD CUISINES - COMPLETELY REDESIGNED */}
-      <section className="py-24 bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-900 relative overflow-hidden">
-        {/* Background Effects */}
-        <div className="absolute inset-0">
-          <div className="absolute top-0 left-0 w-96 h-96 bg-gradient-to-br from-orange-500/30 to-red-500/30 rounded-full blur-3xl animate-pulse"></div>
-          <div className="absolute bottom-0 right-0 w-96 h-96 bg-gradient-to-br from-blue-500/30 to-purple-500/30 rounded-full blur-3xl animate-pulse"></div>
-        </div>
-
-        <div className="container relative z-10">
-          <div className="text-center mb-20">
-            <h2 className="text-6xl md:text-8xl font-black text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-red-500 to-pink-500 mb-8">
-              🌍 WORLD CUISINES
-            </h2>
-            <p className="text-2xl text-white font-bold max-w-4xl mx-auto">
-              Explore authentic flavors from every corner of the planet!
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-serif font-bold text-brown-900 mb-4">Why Choose RecipeHaven?</h2>
+            <p className="text-brown-600 max-w-2xl mx-auto">
+              Discover what makes our platform the perfect place for food enthusiasts
             </p>
           </div>
 
-          {/* Enhanced Cuisine Grid */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-8">
-            {cuisines.slice(0, 12).map((cuisine, index) => (
-              <Link
-                key={cuisine.slug}
-                href={`/cuisines/${cuisine.slug}`}
-                className="group relative transform hover:scale-110 transition-all duration-300"
-              >
-                <div className="relative bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-lg rounded-3xl p-6 shadow-2xl hover:shadow-[0_0_50px_rgba(255,255,255,0.3)] border-2 border-white/20">
-                  {/* Cuisine Image */}
-                  <div className="relative h-24 w-24 mx-auto mb-4 rounded-2xl overflow-hidden">
-                    <Image
-                      src={
-                        cuisine.imageUrl ||
-                        "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&h=400&auto=format&fit=crop" ||
-                        "/placeholder.svg"
-                      }
-                      alt={cuisine.name}
-                      fill
-                      className="object-cover group-hover:scale-110 transition-transform duration-300"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
-                  </div>
+          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+            <div className="text-center group">
+              <div className="w-16 h-16 bg-gradient-to-br from-orange-400 to-amber-500 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
+                <ChefHat className="h-8 w-8 text-white" />
+              </div>
+              <h3 className="text-xl font-bold mb-2">Expert Recipes</h3>
+              <p className="text-gray-600">Curated by professional chefs and home cooking experts</p>
+            </div>
 
-                  {/* Country Name */}
-                  <h3 className="text-white font-bold text-center text-lg group-hover:text-orange-400 transition-colors duration-300">
-                    {cuisine.name}
-                  </h3>
+            <div className="text-center group">
+              <div className="w-16 h-16 bg-gradient-to-br from-orange-400 to-amber-500 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
+                <Users className="h-8 w-8 text-white" />
+              </div>
+              <h3 className="text-xl font-bold mb-2">Community Driven</h3>
+              <p className="text-gray-600">Join thousands of passionate cooks sharing their favorites</p>
+            </div>
 
-                  {/* Glow Effect */}
-                  <div className="absolute inset-0 bg-gradient-to-r from-orange-500/20 via-red-500/20 to-pink-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-3xl"></div>
-                </div>
-              </Link>
-            ))}
-          </div>
+            <div className="text-center group">
+              <div className="w-16 h-16 bg-gradient-to-br from-orange-400 to-amber-500 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
+                <Star className="h-8 w-8 text-white" />
+              </div>
+              <h3 className="text-xl font-bold mb-2">Rated & Reviewed</h3>
+              <p className="text-gray-600">Every recipe is tested and rated by our community</p>
+            </div>
 
-          <div className="text-center mt-16">
-            <Button
-              asChild
-              size="lg"
-              className="bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600 text-white px-12 py-6 text-xl font-bold shadow-2xl transform hover:scale-110 transition-all duration-300 rounded-2xl"
-            >
-              <Link href="/cuisines">
-                <Globe className="mr-4 h-6 w-6" />🌟 EXPLORE ALL CUISINES
-              </Link>
-            </Button>
+            <div className="text-center group">
+              <div className="w-16 h-16 bg-gradient-to-br from-orange-400 to-amber-500 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
+                <Heart className="h-8 w-8 text-white" />
+              </div>
+              <h3 className="text-xl font-bold mb-2">Save Favorites</h3>
+              <p className="text-gray-600">Create collections and save your favorite recipes</p>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* POPULAR RECIPES - NEON STYLE */}
-      <section className="py-24 bg-gradient-to-br from-gray-900 via-blue-900 to-indigo-900">
+      {/* Featured Recipes Carousel */}
+      <section className="py-16 bg-gradient-to-b from-amber-50 to-white">
         <div className="container">
-          <div className="text-center mb-20">
-            <h2 className="text-6xl md:text-8xl font-black text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 mb-8">
-              🔥 HOT RECIPES
-            </h2>
-            <p className="text-2xl text-white font-bold">The most popular recipes loved by our community!</p>
+          <div className="flex items-center justify-between mb-10">
+            <div>
+              <h2 className="text-3xl md:text-4xl font-serif font-bold text-brown-900">Featured Recipes</h2>
+              <p className="text-brown-600 mt-2">Handpicked recipes you'll love to try</p>
+            </div>
+            <Link
+              href="/explore/featured"
+              className="text-orange-600 hover:text-orange-700 flex items-center font-medium group"
+            >
+              View All <ArrowRight className="ml-1 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+            </Link>
           </div>
 
-          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-            {popularRecipes.slice(0, 8).map((recipe, index) => (
-              <div
-                key={recipe._id?.toString()}
-                className="group relative bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-lg rounded-3xl overflow-hidden shadow-2xl hover:shadow-[0_0_50px_rgba(255,255,255,0.3)] transform hover:scale-105 transition-all duration-300 border-2 border-white/20"
-              >
-                {/* Recipe Image */}
-                <div className="relative h-48 overflow-hidden">
-                  <Image
-                    src={
-                      recipe.imageUrl ||
-                      "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&h=300&auto=format&fit=crop" ||
-                      "/placeholder.svg"
-                    }
-                    alt={recipe.title}
-                    fill
-                    className="object-cover group-hover:scale-110 transition-transform duration-300"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
-                  <div className="absolute top-4 right-4">
-                    <span className="bg-gradient-to-r from-orange-500 to-red-500 text-white px-3 py-1 rounded-full text-sm font-bold">
-                      🔥 HOT
-                    </span>
+          <FeaturedRecipeCarousel recipes={featuredRecipes} />
+        </div>
+      </section>
+
+      {/* Cuisine Icons Grid */}
+      <section className="py-16 bg-white">
+        <div className="container">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-serif font-bold text-brown-900">Explore World Cuisines</h2>
+            <p className="text-brown-600 mt-2 max-w-2xl mx-auto">
+              Discover authentic recipes from around the globe and bring international flavors to your kitchen
+            </p>
+          </div>
+
+          <CuisineIconGrid cuisines={cuisines} />
+        </div>
+      </section>
+
+      {/* Recipe of the Day */}
+      <section className="py-16 bg-gradient-to-r from-orange-50 to-amber-50">
+        <div className="container">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-serif font-bold text-brown-900">Recipe of the Day</h2>
+            <p className="text-brown-600 mt-2">Today's special pick from our chef's collection</p>
+          </div>
+
+          <div className="max-w-4xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden">
+            <div className="md:flex">
+              <div className="md:w-1/2 relative h-64 md:h-auto">
+                <Image
+                  src="https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=800&auto=format&fit=crop"
+                  alt="Recipe of the Day"
+                  fill
+                  className="object-cover"
+                />
+                <div className="absolute top-4 left-4">
+                  <span className="bg-orange-600 text-white px-3 py-1 rounded-full text-sm font-medium">
+                    Chef's Choice
+                  </span>
+                </div>
+              </div>
+              <div className="md:w-1/2 p-8">
+                <h3 className="text-2xl font-bold mb-4">Mediterranean Quinoa Bowl</h3>
+                <p className="text-gray-600 mb-6">
+                  A healthy and delicious quinoa bowl packed with fresh vegetables, feta cheese, and a tangy lemon
+                  dressing. Perfect for a nutritious lunch or dinner.
+                </p>
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="flex items-center">
+                    <Clock className="h-4 w-4 text-orange-500 mr-1" />
+                    <span className="text-sm">25 mins</span>
+                  </div>
+                  <div className="flex items-center">
+                    <Star className="h-4 w-4 text-yellow-500 mr-1" />
+                    <span className="text-sm">4.8 (124 reviews)</span>
                   </div>
                 </div>
+                <Button asChild className="bg-orange-600 hover:bg-orange-700">
+                  <Link href="/recipes/mediterranean-quinoa-bowl">
+                    View Recipe <ArrowRight className="ml-2 h-4 w-4" />
+                  </Link>
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
-                {/* Content */}
-                <div className="p-6">
-                  <h3 className="text-xl font-bold text-white mb-2 group-hover:text-orange-400 transition-colors duration-300">
-                    {recipe.title}
-                  </h3>
-                  <div className="flex items-center gap-4 text-gray-300 mb-4">
-                    <div className="flex items-center">
-                      <Clock className="h-4 w-4 mr-1" />
-                      <span className="text-sm">{recipe.prepTime || "30"} mins</span>
-                    </div>
-                    <div className="flex items-center">
-                      <Star className="h-4 w-4 mr-1 text-yellow-400" />
-                      <span className="text-sm">{recipe.rating || "4.8"}</span>
-                    </div>
+      {/* Featured Categories with Images */}
+      <section className="py-16 bg-white">
+        <div className="container">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-serif font-bold text-brown-900">Featured Categories</h2>
+            <p className="text-brown-600 mt-2">Explore our most popular recipe categories</p>
+          </div>
+
+          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+            <div className="group relative h-80 overflow-hidden rounded-xl shadow-lg">
+              <Image
+                src="https://images.unsplash.com/photo-1533089860892-a9b9ac6cd6a4?w=800&auto=format&fit=crop"
+                alt="Breakfast"
+                fill
+                className="object-cover transition-transform duration-500 group-hover:scale-110"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent flex flex-col justify-end p-6">
+                <h3 className="text-2xl font-serif font-bold text-white mb-2">Breakfast</h3>
+                <p className="text-white/80 mb-4">Start your day with these delicious breakfast recipes</p>
+                <Link
+                  href="/categories/breakfast"
+                  className="inline-flex items-center text-orange-300 hover:text-orange-100 group"
+                >
+                  View Recipes <ArrowRight className="ml-1 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                </Link>
+              </div>
+            </div>
+
+            <div className="group relative h-80 overflow-hidden rounded-xl shadow-lg">
+              <Image
+                src="https://images.unsplash.com/photo-1576402187878-974f70c890a5?w=800&auto=format&fit=crop"
+                alt="Dinner"
+                fill
+                className="object-cover transition-transform duration-500 group-hover:scale-110"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent flex flex-col justify-end p-6">
+                <h3 className="text-2xl font-serif font-bold text-white mb-2">Dinner</h3>
+                <p className="text-white/80 mb-4">Hearty and satisfying dinner recipes for the whole family</p>
+                <Link
+                  href="/categories/dinner"
+                  className="inline-flex items-center text-orange-300 hover:text-orange-100 group"
+                >
+                  View Recipes <ArrowRight className="ml-1 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                </Link>
+              </div>
+            </div>
+
+            <div className="group relative h-80 overflow-hidden rounded-xl shadow-lg">
+              <Image
+                src="https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?w=800&auto=format&fit=crop"
+                alt="Desserts"
+                fill
+                className="object-cover transition-transform duration-500 group-hover:scale-110"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent flex flex-col justify-end p-6">
+                <h3 className="text-2xl font-serif font-bold text-white mb-2">Desserts</h3>
+                <p className="text-white/80 mb-4">Sweet treats to satisfy your cravings</p>
+                <Link
+                  href="/categories/desserts"
+                  className="inline-flex items-center text-orange-300 hover:text-orange-100 group"
+                >
+                  View Recipes <ArrowRight className="ml-1 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Popular Recipes */}
+      <section className="py-16 bg-amber-50">
+        <div className="container">
+          <div className="flex items-center justify-between mb-10">
+            <div>
+              <h2 className="text-3xl md:text-4xl font-serif font-bold text-brown-900 flex items-center">
+                <Award className="mr-3 h-8 w-8 text-orange-500" />
+                Popular Recipes
+              </h2>
+              <p className="text-brown-600 mt-2">Our most loved recipes by the community</p>
+            </div>
+            <Link
+              href="/explore/popular"
+              className="text-orange-600 hover:text-orange-700 flex items-center font-medium group"
+            >
+              View All <ArrowRight className="ml-1 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+            </Link>
+          </div>
+
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {popularRecipes.slice(0, 8).map((recipe) => (
+              <RecipeCard key={recipe._id?.toString()} recipe={recipe} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Newly Added Recipes */}
+      <section className="py-16 bg-white">
+        <div className="container">
+          <div className="flex items-center justify-between mb-10">
+            <div>
+              <h2 className="text-3xl md:text-4xl font-serif font-bold text-brown-900 flex items-center">
+                <Clock className="mr-3 h-8 w-8 text-orange-500" />
+                Newly Added
+              </h2>
+              <p className="text-brown-600 mt-2">Check out the latest culinary creations from our community</p>
+            </div>
+            <Link
+              href="/explore/recent"
+              className="text-orange-600 hover:text-orange-700 flex items-center font-medium group"
+            >
+              View All <ArrowRight className="ml-1 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+            </Link>
+          </div>
+
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {newRecipes.slice(0, 8).map((recipe) => (
+              <RecipeCard key={recipe._id?.toString()} recipe={recipe} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Cooking Tips Section */}
+      <section className="py-16 bg-gradient-to-b from-amber-50 to-orange-50">
+        <div className="container">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-serif font-bold text-brown-900">Cooking Tips & Tricks</h2>
+            <p className="text-brown-600 mt-2 max-w-2xl mx-auto">
+              Enhance your culinary skills with these professional cooking tips
+            </p>
+          </div>
+
+          <div className="grid gap-8 md:grid-cols-3">
+            <div className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
+              <div className="relative h-48">
+                <Image
+                  src="https://images.unsplash.com/photo-1556911073-38141963c9e0?w=800&auto=format&fit=crop"
+                  alt="Knife Skills"
+                  fill
+                  className="object-cover"
+                />
+              </div>
+              <div className="p-6">
+                <h3 className="text-xl font-bold mb-2">Master Knife Skills</h3>
+                <p className="text-gray-700 mb-4">
+                  Learn proper knife techniques to improve your efficiency and safety in the kitchen.
+                </p>
+                <Link
+                  href="/tips/knife-skills"
+                  className="text-orange-600 hover:text-orange-700 flex items-center font-medium group"
+                >
+                  Learn More <ArrowRight className="ml-1 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                </Link>
+              </div>
+            </div>
+
+            <div className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
+              <div className="relative h-48">
+                <Image
+                  src="https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?w=800&auto=format&fit=crop"
+                  alt="Flavor Pairing"
+                  fill
+                  className="object-cover"
+                />
+              </div>
+              <div className="p-6">
+                <h3 className="text-xl font-bold mb-2">Flavor Pairing Secrets</h3>
+                <p className="text-gray-700 mb-4">
+                  Discover how to combine ingredients to create perfectly balanced and delicious dishes.
+                </p>
+                <Link
+                  href="/tips/flavor-pairing"
+                  className="text-orange-600 hover:text-orange-700 flex items-center font-medium group"
+                >
+                  Learn More <ArrowRight className="ml-1 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                </Link>
+              </div>
+            </div>
+
+            <div className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
+              <div className="relative h-48">
+                <Image
+                  src="https://images.unsplash.com/photo-1607877742574-a7253426f5af?w=800&auto=format&fit=crop"
+                  alt="Food Presentation"
+                  fill
+                  className="object-cover"
+                />
+              </div>
+              <div className="p-6">
+                <h3 className="text-xl font-bold mb-2">Food Presentation</h3>
+                <p className="text-gray-700 mb-4">
+                  Learn how to plate your dishes like a professional chef and impress your guests.
+                </p>
+                <Link
+                  href="/tips/food-presentation"
+                  className="text-orange-600 hover:text-orange-700 flex items-center font-medium group"
+                >
+                  Learn More <ArrowRight className="ml-1 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-20 bg-gradient-to-r from-orange-600 to-amber-600 text-white relative overflow-hidden">
+        <div className="absolute inset-0 bg-black/20"></div>
+        <div className="container relative z-10">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-10">
+            <div className="md:w-1/2">
+              <h2 className="text-3xl md:text-4xl font-serif font-bold mb-4">Share Your Culinary Creations</h2>
+              <p className="text-lg mb-8 text-white/90 max-w-lg">
+                Join our community of food enthusiasts and share your favorite recipes with the world. Get feedback,
+                save your favorites, and inspire others with your unique dishes.
+              </p>
+              <Button
+                asChild
+                size="lg"
+                className="bg-white text-orange-700 hover:bg-orange-100 px-8 py-6 text-lg shadow-xl"
+              >
+                <Link href="/recipes/new">
+                  <Utensils className="mr-2 h-5 w-5" />
+                  Add Your Recipe
+                </Link>
+              </Button>
+            </div>
+            <div className="md:w-1/2 relative h-[300px] md:h-[400px] w-full rounded-xl overflow-hidden shadow-2xl">
+              <Image
+                src="https://images.unsplash.com/photo-1556911220-bff31c812dba?q=80&w=2068&auto=format&fit=crop"
+                alt="Cooking"
+                fill
+                className="object-cover"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials */}
+      <section className="py-16 bg-white">
+        <div className="container">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-serif font-bold text-brown-900">What Our Users Say</h2>
+            <p className="text-brown-600 mt-2 max-w-2xl mx-auto">
+              Join thousands of happy cooks who have discovered new recipes and shared their own creations
+            </p>
+          </div>
+
+          <div className="grid gap-8 md:grid-cols-3">
+            {testimonials.map((testimonial, index) => (
+              <div
+                key={index}
+                className="bg-gradient-to-br from-amber-50 to-orange-50 p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300"
+              >
+                <div className="flex items-center mb-4">
+                  <div className="h-12 w-12 rounded-full overflow-hidden mr-4">
+                    <Image
+                      src={testimonial.avatar || "/placeholder.svg"}
+                      alt={testimonial.name}
+                      width={48}
+                      height={48}
+                      className="object-cover"
+                    />
                   </div>
-                  <Button
-                    asChild
-                    className="w-full bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white font-bold"
-                  >
-                    <Link href={`/recipes/${recipe._id}`}>
-                      <Zap className="mr-2 h-4 w-4" />
-                      VIEW RECIPE
-                    </Link>
-                  </Button>
+                  <div>
+                    <h3 className="font-medium text-lg">{testimonial.name}</h3>
+                    <p className="text-sm text-gray-600">{testimonial.location}</p>
+                  </div>
+                </div>
+                <p className="text-gray-700 italic mb-3">"{testimonial.text}"</p>
+                <div className="flex">
+                  {Array.from({ length: 5 }).map((_, i) => (
+                    <Star key={i} className="h-4 w-4 text-yellow-400 fill-current" />
+                  ))}
                 </div>
               </div>
             ))}
@@ -340,53 +542,56 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* CALL TO ACTION - EXPLOSIVE DESIGN */}
-      <section className="py-24 bg-gradient-to-br from-orange-600 via-red-600 to-pink-600 relative overflow-hidden">
-        {/* Animated Background */}
-        <div className="absolute inset-0">
-          {[...Array(30)].map((_, i) => (
-            <div
-              key={i}
-              className="absolute w-4 h-4 bg-white/20 rounded-full animate-ping"
-              style={{
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-                animationDelay: `${Math.random() * 3}s`,
-                animationDuration: `${2 + Math.random() * 2}s`,
-              }}
-            ></div>
-          ))}
-        </div>
-
-        <div className="container relative z-10 text-center">
-          <h2 className="text-6xl md:text-8xl font-black text-white mb-8 drop-shadow-2xl">🚀 JOIN THE REVOLUTION!</h2>
-          <p className="text-2xl text-white mb-12 font-bold max-w-4xl mx-auto">
-            Share your amazing recipes with the world and become a culinary superstar!
-          </p>
-
-          <div className="flex flex-wrap justify-center gap-8">
-            <Button
-              asChild
-              size="lg"
-              className="bg-white text-orange-600 hover:bg-gray-100 px-12 py-8 text-2xl font-black shadow-2xl transform hover:scale-110 transition-all duration-300 rounded-2xl"
-            >
-              <Link href="/recipes/new">
-                <Utensils className="mr-4 h-8 w-8" />🌟 SHARE YOUR RECIPE NOW!
-              </Link>
-            </Button>
-            <Button
-              asChild
-              size="lg"
-              variant="outline"
-              className="border-4 border-white text-white hover:bg-white hover:text-orange-600 px-12 py-8 text-2xl font-black shadow-2xl transform hover:scale-110 transition-all duration-300 rounded-2xl"
-            >
-              <Link href="/signup">
-                <Users className="mr-4 h-8 w-8" />🔥 JOIN COMMUNITY
-              </Link>
-            </Button>
+      {/* Newsletter */}
+      <section className="py-16 bg-gradient-to-b from-amber-50 to-orange-100">
+        <div className="container">
+          <div className="max-w-3xl mx-auto text-center">
+            <h2 className="text-3xl md:text-4xl font-serif font-bold text-brown-900 mb-4">
+              Get Weekly Recipe Inspiration
+            </h2>
+            <p className="text-lg text-brown-600 mb-8">
+              Subscribe to our newsletter and receive the best recipes directly in your inbox every week
+            </p>
+            <form className="flex flex-col sm:flex-row gap-3 max-w-lg mx-auto">
+              <input
+                type="email"
+                placeholder="Your email address"
+                className="flex-1 px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                required
+              />
+              <Button
+                type="submit"
+                className="bg-gradient-to-r from-orange-600 to-amber-600 hover:from-orange-700 hover:to-amber-700 text-white px-6 py-3"
+              >
+                Subscribe
+              </Button>
+            </form>
+            <p className="text-sm text-gray-500 mt-4">We respect your privacy. Unsubscribe at any time.</p>
           </div>
         </div>
       </section>
     </div>
   )
 }
+
+// Sample testimonials data
+const testimonials = [
+  {
+    name: "Sarah Johnson",
+    location: "New York, USA",
+    avatar: "https://randomuser.me/api/portraits/women/12.jpg",
+    text: "RecipeHaven has transformed my cooking experience! I've discovered so many amazing recipes and even gained confidence to share my own creations.",
+  },
+  {
+    name: "Michael Chen",
+    location: "Toronto, Canada",
+    avatar: "https://randomuser.me/api/portraits/men/22.jpg",
+    text: "As a busy professional, I love how easy it is to find quick and delicious recipes here. The community is so supportive and inspiring!",
+  },
+  {
+    name: "Priya Sharma",
+    location: "London, UK",
+    avatar: "https://randomuser.me/api/portraits/women/32.jpg",
+    text: "I've been able to share my family's traditional recipes and learn new cooking techniques. This platform has become my go-to for meal planning.",
+  },
+]
