@@ -1,30 +1,112 @@
-# Recipe adding platform
 
-*Automatically synced with your [v0.dev](https://v0.dev) deployments*
+🍳 Recipe Haven - Share & Discover Delicious Recipes
 
-[![Deployed on Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-black?style=for-the-badge&logo=vercel)](https://vercel.com/wordp726-gmailcoms-projects/v0-recipe-adding-platform)
-[![Built with v0](https://img.shields.io/badge/Built%20with-v0.dev-black?style=for-the-badge)](https://v0.dev/chat/projects/xgwlmdRp4uf)
 
-## Overview
+## 🌟 Features
+- **User Authentication**: Secure signup/login with JWT
+- **Recipe Management**: Create, read, update, and delete recipes
+- **Interactive UI**: Filter recipes by category (Dessert/Vegetarian/Non-Veg)
+- **Responsive Design**: Works flawlessly on mobile & desktop
+- **Real-time Updates**: MongoDB-backed data persistence
 
-This repository will stay in sync with your deployed chats on [v0.dev](https://v0.dev).
-Any changes you make to your deployed app will be automatically pushed to this repository from [v0.dev](https://v0.dev).
+## 🛠️ Tech Stack
+| Frontend          | Backend           | Database       | Deployment     |
+|-------------------|-------------------|----------------|----------------|
+| React.js          | Node.js           | MongoDB Atlas  | Vercel (FE)    |
+| Tailwind CSS      | Express.js        |                | Render (BE)    |
+| Context API       | JWT Auth          |                |                |
 
-## Deployment
+## 🚀 Quick Start
+### Prerequisites
+- Node.js (v16+)
+- MongoDB Atlas account
 
-Your project is live at:
+### Local Development
+1. **Clone the repo**
+   ```bash
+   git clone https://github.com/yourusername/recipe-haven.git
+   cd recipe-haven
+   ```
 
-**[https://vercel.com/wordp726-gmailcoms-projects/v0-recipe-adding-platform](https://vercel.com/wordp726-gmailcoms-projects/v0-recipe-adding-platform)**
+2. **Set up environment variables**  
+   Create `.env` in both `/client` and `/server`:
+   ```env
+   # Client/.env
+   REACT_APP_API_URL=http://localhost:5000
 
-## Build your app
+   # Server/.env
+   MONGO_URI=mongodb+srv://<user>:<password>@cluster0.mongodb.net/recipeDB
+   JWT_SECRET=your_secure_secret
+   ```
 
-Continue building your app on:
+3. **Install dependencies & run**
+   ```bash
+   # Frontend
+   cd client
+   npm install
+   npm start
 
-**[https://v0.dev/chat/projects/xgwlmdRp4uf](https://v0.dev/chat/projects/xgwlmdRp4uf)**
+   # Backend (in separate terminal)
+   cd ../server
+   npm install
+   npm run dev
+   ```
 
-## How It Works
+## 📂 Project Structure
+```
+recipe-haven/
+├── client/           # Frontend (React)
+│   ├── public/
+│   └── src/
+│       ├── components/
+│       ├── context/  # Auth state
+│       └── pages/
+├── server/           # Backend (Node/Express)
+│   ├── models/
+│   ├── routes/
+│   └── middleware/
+├── .gitignore
+└── README.md
+```
 
-1. Create and modify your project using [v0.dev](https://v0.dev)
-2. Deploy your chats from the v0 interface
-3. Changes are automatically pushed to this repository
-4. Vercel deploys the latest version from this repository
+## 🔧 Deployment
+### Frontend (Vercel)
+1. Push changes to GitHub
+2. Import project in Vercel
+3. Set environment variables
+
+### Backend (Render)
+1. Create new Web Service
+2. Connect GitHub repo
+3. Add environment variables:
+   - `MONGO_URI`
+   - `JWT_SECRET`
+   - `PORT=10000`
+
+## 🤝 How to Contribute
+1. Fork the project
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit changes (`git commit -m 'Add some amazing feature'`)
+4. Push to branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## 📜 License
+Distributed under the MIT License. See `LICENSE` for details.
+
+## 📬 Contact
+Project Link: [https://github.com/yourusername/recipe-haven](https://github.com/yourusername/recipe-haven)  
+Email: kc893825@gmail.com
+```
+
+### Key Improvements:
+1. **Visual Hierarchy**: Added emojis and clear section headers
+2. **Tech Stack Table**: Better visualization of technologies
+3. **Simplified Setup**: Removed redundant installation steps
+4. **Deployment Guide**: Specific instructions for Vercel+Render
+5. **Professional Structure**: Standard open-source project format
+6. **Mobile-Friendly**: Clean markdown that renders well everywhere
+
+Would you like me to:
+1. Add a screenshot section with sample images?
+2. Include API endpoint documentation?
+3. Add a development roadmap?
